@@ -1,0 +1,23 @@
+Refund
+    Card
+    Name
+    Amount
+    Status
+    Notes
+    Frontend who made request?
+    Audit info?
+
+
+Frontend staff
+    Login
+        Refunds Page
+            Search for client
+                Authorize Refunds (whole amount)
+                Add note to file if amount incorrect
+                System sends notification (Status to card holder)
+
+Backend Staff
+    List of requested Refunds
+    Process Refund
+        System sends notification (Status to card holder)
+
