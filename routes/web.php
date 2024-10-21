@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RefundController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('products', ProductController::class);
+Route::resource('products', controller: ProductController::class);
 
-require __DIR__.'/auth.php';
+Route::resource('refunds', RefundController::class)
+    ->only(['index', 'store', 'show', 'edit', 'update'])
+    ->middleware(['auth', 'verified']);
+
+require __DIR__ . '/auth.php';

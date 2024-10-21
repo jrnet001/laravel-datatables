@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Refund;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,11 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $user = User::create([
+            'name' => 'John Romano',
+            'email' => 'none@none.com',
+            'password' => bcrypt('password'), // Make sure to hash the password
         ]);
+                // Create 10 users
+        User::factory(10)
+            ->has(Refund::factory()->count(5)) // Each user will have 5 products
+            ->create();
     }
 }

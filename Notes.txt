@@ -4,16 +4,16 @@ Refund
     Amount
     Status
     Notes
-    Frontend who made request?
-    Audit info?
+    Frontend who made request?  () Done
+    Audit info? Done
 
 
 Frontend staff
-    Login
+    Login Done
         Refunds Page
-            Search for client
-                Authorize Refunds (whole amount)
-                Add note to file if amount incorrect
+            Search for client Done
+                Authorize Refunds (whole amount) Done
+                Add note to file if amount incorrect Done
                 System sends notification (Status to card holder)
 
 Backend Staff
