@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RefundRequestCreated;
 use App\Models\Refund;
+use App\Notifications\NewRefundRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -59,9 +61,7 @@ class RefundController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
         $affectedRows = Refund::where("id", $request->refund_id)->update(["notes" => $request->refund_notes]);
-
         return response()->json(['success' => 'Refund saved successfully. ']);
     }
 
@@ -92,6 +92,9 @@ class RefundController extends Controller
             // 'phone' => $request->phone,
             'refund_status' => $request->refund_status,
         ]);
+
+        // Dispatch the event
+        event(new RefundRequestCreated($refund));
 
         return response()->json(['success' => true, 'refund' => $refund], 200);
     }
@@ -132,7 +135,6 @@ class RefundController extends Controller
             'fullname' => $refund->firstName . ' ' . $refund->lastName,
             'notes' => $refund->notes,
         ]);
-
     }
 
     /**
