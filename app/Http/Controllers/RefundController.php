@@ -24,7 +24,7 @@ class RefundController extends Controller
             //dd($request);
 
             //$data = Refund::query();
-            $data = Refund::select('id', 'libraryCard', 'firstName', 'lastName', 'phone', 'refund_status');
+            $data = Refund::select('id', 'libraryCard', 'firstName', 'lastName', 'phone', 'refund_status')->orderBy('refund_status', 'asc');
 
 
             // Implement searching based on request input
