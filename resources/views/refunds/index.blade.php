@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Laravel 11 Ajax CRUD Tutorial Example</title>
+    <title>Print Refunds</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
@@ -17,18 +17,19 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/r-3.0.3/datatables.min.js"></script>
+
 </head>
 
 <body>
 
     <div class="container my-4">
         <div class="card my-4">
-            <h2 class="card-header"><i class="fa-regular fa-credit-card"></i> Ajax CRUD Example</h2>
+            <h2 class="card-header"><i class="fa-regular fa-credit-card"></i>Print Refunds</h2>
             <div class="card-body">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
                     <a class="btn btn-success btn-sm" href="javascript:void(0)" id="createNewProduct"> <i
                             class="fa fa-plus"></i> Create New Product</a>
-                </div>
+                </div> --}}
 
                 <table class="table table-striped table-bordered data-table">
                     <thead>
@@ -173,7 +174,10 @@
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
-                    searchable: false
+                    orderable: false,
+                    searchable: true,
+                    visible: false
+
                 },
                 {
                     data: 'libraryCard',
