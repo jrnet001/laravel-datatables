@@ -27,8 +27,8 @@
             <h2 class="card-header"><i class="fa-regular fa-credit-card"></i>Print Refunds</h2>
             <div class="card-body">
                 {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
-                    <a class="btn btn-success btn-sm" href="javascript:void(0)" id="createNewProduct"> <i
-                            class="fa fa-plus"></i> Create New Product</a>
+                    <a class="btn btn-success btn-sm" href="javascript:void(0)" id="createNewRefund"> <i
+                            class="fa fa-plus"></i> Create New Refund</a>
                 </div> --}}
 
                 <table class="table table-striped table-bordered data-table">
@@ -50,6 +50,7 @@
 
     </div>
 
+{{-- Notes --}}
     <div class="modal fade" id="ajaxModel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -57,7 +58,7 @@
                     <h4 class="modal-title" id="modelHeading"></h4>
                 </div>
                 <div class="modal-body">
-                    <form id="productForm" name="productForm" class="form-horizontal">
+                    <form id="refundForm" name="refundForm" class="form-horizontal">
                         <input type="hidden" name="refund_id" id="refund_id">
                         @csrf
 
@@ -74,7 +75,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Status:</label>
+                            <label class="col-sm-2 control-label">Notes:</label>
                             <div class="col-sm-12">
                                 <textarea id="refund_notes" name="refund_notes" placeholder="Enter Details" class="form-control"></textarea>
                             </div>
@@ -101,7 +102,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="modelHeading"><i class="fa-regular fa-eye"></i> Show Product</h4>
+                    <h4 class="modal-title" id="modelHeading"><i class="fa-regular fa-eye"></i> Show Refund</h4>
                 </div>
                 <div class="modal-body">
                     <p><strong>Name:</strong> <span class="show-name"></span></p>
@@ -146,6 +147,7 @@
 
         var table = $('.data-table').DataTable({
             processing: true,
+            stateSave: true,
             serverSide: true,
             responsive: true,
             search: {
@@ -175,7 +177,7 @@
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
                     orderable: false,
-                    searchable: true,
+                    searchable: false,
                     visible: false
 
                 },
@@ -202,7 +204,7 @@
                     data: null,
                     render: function(data, type, row) {
                         //    console.log(row); // Debugging line
-                        //    console.log(data); // Debugging line
+                            console.log(data); // Debugging line
                         //    console.log(type); // Debugging line
 
                         return `
@@ -212,7 +214,7 @@
   <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2"></path>
   <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z"></path>
 </svg>Notes</button>
-                        <button class="btn btn-danger btn-sm refund-btn" data-id="${row.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                        <button  ${row.refund_status === 'Pending' ? '' : 'disabled'} class="btn btn-success btn-sm refund-btn" data-id="${row.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"></path>
   <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"></path>
   <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"></path>
@@ -245,30 +247,30 @@
         --------------------------------------------
         Click to Button
         --------------------------------------------
-        --------------------------------------------*/
-        $('#createNewProduct').click(function() {
-            $('#saveBtn').val("create-product");
-            $('#product_id').val('');
-            $('#productForm').trigger("reset");
-            $('#modelHeading').html("<i class='fa fa-plus'></i> Create New Product");
-            $('#ajaxModel').modal('show');
-        });
+        // --------------------------------------------*/
+        // $('#createNewRefund').click(function() {
+        //     $('#saveBtn').val("create-refund");
+        //     $('#refund_id').val('');
+        //     $('#refundForm').trigger("reset");
+        //     $('#modelHeading').html("<i class='fa fa-plus'></i> Create New Refund");
+        //     $('#ajaxModel').modal('show');
+        // });
 
         /*------------------------------------------
         --------------------------------------------
         Click to View Button
         --------------------------------------------
         --------------------------------------------*/
-        $(document).on('click', '.view-btn', function() {
-            var refund_id = $(this).data('id');
-            $.get("{{ route('refunds.index') }}" + '/' + refund_id, function(data) {
-                $('#showModel').modal('show');
-                $('.show-name').text(data.fullname);
-                $('.show-notes').text(data.notes);
-                $('.show-amount').text(data.amount);
-                $('.show-status').text(data.refund_status);
-            })
-        });
+        // $(document).on('click', '.view-btn', function() {
+        //     var refund_id = $(this).data('id');
+        //     $.get("{{ route('refunds.index') }}" + '/' + refund_id, function(data) {
+        //         $('#showModel').modal('show');
+        //         $('.show-name').text(data.fullname);
+        //         $('.show-notes').text(data.notes);
+        //         $('.show-amount').text(data.amount);
+        //         $('.show-status').text(data.refund_status);
+        //     })
+        // });
 
         /*------------------------------------------
         --------------------------------------------
@@ -276,10 +278,10 @@
         --------------------------------------------
         --------------------------------------------*/
         $(document).on('click', '.edit-btn', function() {
-            var product_id = $(this).data('id');
-            $.get("{{ route('refunds.index') }}" + '/' + product_id + '/edit', function(data) {
+            var refund_id = $(this).data('id');
+            $.get("{{ route('refunds.index') }}" + '/' + refund_id + '/edit', function(data) {
                 $('#modelHeading').html(
-                    "<i class='fa-regular fa-pen-to-square'></i> Edit Product"
+                    "Notes"
                 ); //where is the icon?
                 $('#saveBtn').val("edit-user");
                 $('#ajaxModel').modal('show');
@@ -291,10 +293,10 @@
 
         /*------------------------------------------
         --------------------------------------------
-        Create Product Code
+        Create Refund Code
         --------------------------------------------
         --------------------------------------------*/
-        $('#productForm').submit(function(e) {
+        $('#refundForm').submit(function(e) {
             e.preventDefault();
 
             let formData = new FormData(this);
@@ -308,16 +310,16 @@
                 processData: false,
                 success: (response) => {
                     $('#saveBtn').html('Submit');
-                    $('#productForm').trigger("reset");
+                    $('#refundForm').trigger("reset");
                     $('#ajaxModel').modal('hide');
                     table.draw();
                 },
                 error: function(response) {
                     $('#saveBtn').html('Submit');
-                    $('#productForm').find(".print-error-msg").find("ul").html('');
-                    $('#productForm').find(".print-error-msg").css('display', 'block');
+                    $('#refundForm').find(".print-error-msg").find("ul").html('');
+                    $('#refundForm').find(".print-error-msg").css('display', 'block');
                     $.each(response.responseJSON.errors, function(key, value) {
-                        $('#productForm').find(".print-error-msg").find("ul")
+                        $('#refundForm').find(".print-error-msg").find("ul")
                             .append('<li>' + value + '</li>');
                     });
                 }
@@ -327,17 +329,17 @@
 
         /*------------------------------------------
         --------------------------------------------
-        Delete Product Code
+        Delete Refund Code
         --------------------------------------------
         --------------------------------------------*/
         // $(document).on('click', '.delete-btn', function() {
 
-        //     var product_id = $(this).data("id");
+        //     var refund_id = $(this).data("id");
         //     confirm("Are you sure want to Refund?");
 
         //     $.ajax({
         //         type: "DELETE",
-        //         url: "{{ route('refunds.store') }}" + '/' + product_id,
+        //         url: "{{ route('refunds.store') }}" + '/' + refund_id,
         //         success: function(data) {
         //             table.draw();
         //         },
@@ -350,18 +352,18 @@
 
         /*------------------------------------------
         --------------------------------------------
-        Update Product Code
+        Update Refund Code
         --------------------------------------------
         --------------------------------------------*/
         $(document).on('click', '.refund-btn', function() {
 
-            var product_id = $(this).data("id");
+            var refund_id = $(this).data("id");
             confirm("Are you sure want to Refund?");
 
             $.ajax({
                 type: "PATCH",
                 url: "{{ route('refunds.update', ':id') }}".replace(':id',
-                    product_id), // Replace ':id' with actual ID
+                    refund_id), // Replace ':id' with actual ID
                 data: {
                     // libraryCard: $('#libraryCard').val(),
                     // firstName: $('#firstName').val(),
@@ -382,6 +384,45 @@
         });
 
     });
+
+$(document).ready(function () {
+  var exampleDataTable = $('#example').DataTable({
+    initComplete: function () {
+      this.api().columns().every(function () {
+        var column = this;
+        var select = $('<select><option value=""></option></select>')
+          .appendTo($(column.footer()).empty())
+          .on('change', function () {
+            var val = $.fn.dataTable.util.escapeRegex(
+              $(this).val()
+            );
+
+            column
+              .search(val ? '^' + val + '$' : '', true, false)
+              .draw();
+          });
+
+        column.data().unique().sort().each(function (d, j) {
+          select.append('<option value="' + d + '">' + d + '</option>')
+        });
+      });
+    }
+  });
+
+  // Event handler when position select is changed
+  $(exampleDataTable.columns(1).footer()).find('select').on('change', function () {
+    var nextSelect = $(exampleDataTable.columns(2).footer()).find('select');
+    var nextColumn = exampleDataTable.column(2);
+    var nextColumnResults = exampleDataTable.column(2, { search: 'applied' });
+    nextColumn.search('').draw();
+    nextSelect.empty();
+    nextSelect.append('<option value=""></option>');
+    nextColumnResults.data().unique().sort().each(function (d, j) {
+      nextSelect.append('<option value="' + d + '">' + d + '</option>')
+    });
+  });
+});
+
 </script>
 
 </html>

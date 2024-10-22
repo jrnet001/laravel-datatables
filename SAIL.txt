@@ -1,0 +1,80 @@
+history | awk '{$1=""; print substr($0,2)}'|grep sail|sort -u >>SAIL.txt
+sail composer outdated
+sail composer update
+sail artisan breeze:install blade
+sail artisan cache:clear
+sail artisan config:cache
+sail artisan config:clear
+sail artisan db:migration
+sail artisan db:seed
+sail artisan db:seed --class=ProductSeeder
+sail artisan db:show
+sail artisan db:table users
+sail artisan filament:install --panels
+sail artisan make:controller RefundController --resource --model=Refund
+sail artisan make:enum
+sail artisan make:event ChirpCreated
+sail artisan make:event RefundRequestCreated
+sail artisan make:factory RefundFactory --model=Refund
+sail artisan make:factory UserFactory --model=User
+sail artisan make:filament-resource Refund --generate --soft-deletes
+sail artisan make:filament-user
+sail artisan make:listener SendChirpCreatedNotifications --event=ChirpCreated
+sail artisan make:listener SendRefundRequestCreatedNotifications --event=RefundRequestCreated
+sail artisan make:migration
+sail artisan make:migration create_products_table --create=products
+sail artisan make:migration create_refunds_table --create=refunds
+sail artisan make:model
+sail artisan make:model -mrc Chirp
+sail artisan make:model -mrc Refund
+sail artisan make:model Refund
+sail artisan make:notification NewChirp
+sail artisan make:notification NewRefundRequest
+sail artisan make:policy ChirpPolicy --model=Chirp
+sail artisan make:request RefundStoreRequest
+sail artisan make:request RefundUpdateRequest
+sail artisan make:seeder DatabaseSeeder
+sail artisan make:seeder ProductSeeder
+sail artisan migrate
+sail artisan migrate --help
+sail artisan migrate:help
+sail artisan migrate:reset
+sail artisan migrate:rollback
+sail artisan migrate --seed
+sail artisan migrate:status
+sail artisan migration
+sail artisan migration:rollback
+sail artisan queue:work
+sail artisan route:clear
+sail artisan route:list
+sail artisan scout:import "App\Models\Refund"
+sail artisan scout:import "App\Models\Refunds"
+sail artisan scout:sync-index-settings
+sail artisan tinker
+sail artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"
+sail artisan vendor:publish --provider="Onecentlin\Adminer\ServiceProvider"
+sail artisan vendor:publish --provider="OwenIt\Auditing\AuditingServiceProvider"
+sail artisan vendor:publish --provider "OwenIt\Auditing\AuditingServiceProvider" --tag="config"
+sail artisan vendor:publish --provider "OwenIt\Auditing\AuditingServiceProvider" --tag="migrations"
+sail composer require filament/filament:"^3.2" -W
+sail composer require laravel/breeze --dev
+sail composer require laravel/scout
+sail composer require meilisearch/meilisearch-php http-interop/http-factory-guzzle
+sail composer require onecentlin/laravel-adminer
+sail composer require owen-it/laravel-auditing
+sail composer require yajra/laravel-datatables
+sail composer update onecentlin/laravel-adminer
+sail down
+sail down ?
+sail down -rmi
+sail down -v
+sail down -vmi
+sail l artisan make:policy ChirpPolicy --model=Chirp
+sail -up
+sail up
+
+ 1: $refund = App\Models\Refund::first();
+ 2: App\Models\Refund::find('9d38d91f-fb62-487d-ba7f-d7cf0fc5bfdf')->user;
+ 3: $refund = App\Models\Refund::first()->user;
+ 5: $refund = App\Models\Refund::first()->user_id;
+ 6: $refund = App\Models\Refund::first()->user_id->name;
