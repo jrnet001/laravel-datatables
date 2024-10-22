@@ -8,6 +8,7 @@
         "php": "^8.2",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "onecentlin/laravel-adminer": "^7.0",
         "owen-it/laravel-auditing": "^13.6",
         "yajra/laravel-datatables": "^11.0"
     },
