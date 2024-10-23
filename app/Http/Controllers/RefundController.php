@@ -62,8 +62,21 @@ class RefundController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $affectedRows = Refund::where("id", $request->refund_id)->update(["notes" => $request->refund_notes]);
-        return response()->json(['success' => 'Refund saved successfully. ']);
+        // Begin transaction
+        DB::beginTransaction();
+
+        try {
+            $affectedRows = Refund::where("id", $request->refund_id)->update(["notes" => $request->refund_notes]);
+            // Commit the transaction
+            DB::commit();
+            return response()->json(['success' => 'Refund saved successfully. '], 200);
+        } catch (\Exception $e) {
+            // Rollback the transaction if anything goes wrong
+            DB::rollBack();
+            // Optionally log the error
+            Log::error('Update refund error: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the refund.'], 500);
+        }
     }
 
 
@@ -106,7 +119,6 @@ class RefundController extends Controller
             event(new RefundRequestCreated($refund));
 
             return response()->json(['success' => true, 'refund' => $refund], 200);
-
         } catch (\Exception $e) {
             // Rollback the transaction if anything goes wrong
             DB::rollBack();
