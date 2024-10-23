@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -84,19 +85,35 @@ class RefundController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Update the refund record
-        $refund->update([
-            // 'libraryCard' => $request->libraryCard,
-            // 'firstName' => $request->firstName,
-            // 'lastName' => $request->lastName,
-            // 'phone' => $request->phone,
-            'refund_status' => $request->refund_status,
-        ]);
+        // Begin transaction
+        DB::beginTransaction();
 
-        // Dispatch the event
-        event(new RefundRequestCreated($refund));
+        try {
 
-        return response()->json(['success' => true, 'refund' => $refund], 200);
+            // Update the refund record
+            $refund->update([
+                // 'libraryCard' => $request->libraryCard,
+                // 'firstName' => $request->firstName,
+                // 'lastName' => $request->lastName,
+                // 'phone' => $request->phone,
+                'refund_status' => $request->refund_status,
+            ]);
+
+            // Commit the transaction
+            DB::commit();
+
+            // Dispatch the event
+            event(new RefundRequestCreated($refund));
+
+            return response()->json(['success' => true, 'refund' => $refund], 200);
+
+        } catch (\Exception $e) {
+            // Rollback the transaction if anything goes wrong
+            DB::rollBack();
+            // Optionally log the error
+            Log::error('Update refund error: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while updating the refund.'], 500);
+        }
     }
 
     /**
