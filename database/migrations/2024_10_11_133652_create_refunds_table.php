@@ -26,6 +26,10 @@ return new class extends Migration
             // Foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+            $table->index(['libraryCard']);
+            $table->index(['firstName']);
+            $table->index(['lastName']);
+            $table->index(['phone']);
 
         });
     }

@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
                 // Create 10 users
         User::factory(10)
-            ->has(Refund::factory()->count(5)) // Each user will have 5 products
+            ->has(Refund::factory()->count(500)) // Each user will have 50 refunds
             ->create();
     }
 }
